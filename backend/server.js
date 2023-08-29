@@ -1,8 +1,6 @@
 const express = require("express");
-const { chats } = require("./data/data");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
-const colors = require("colors");
 const userRoutes = require("./routes/userRoutes");
 const chatRoutes = require("./routes/chatRoutes");
 const messageRoutes = require("./routes/messageRoutes");
@@ -20,21 +18,11 @@ app.use(express.json()); // to accept json data
 //   res.send("Api is running!");
 // });
 
-// app.get("/api/chat", (req, res) => {
-//   res.send(chats);
-// });
-
-// app.get("/api/chat/:id", (req, res) => {
-//   // console.log(req);
-//   const singleChat = chats.find((c) => c._id === req.params.id);
-//   res.send(singleChat);
-// });
-
 app.use("/api/user", userRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/message", messageRoutes);
 
-// ----------------------------deployment----------
+// ----------------------------deployment----------------------
 
 const __dirname1 = path.resolve();
 
@@ -49,16 +37,14 @@ if (process.env.NODE_ENV === "production") {
     res.send("API is running..");
   });
 }
-// ----------------------------deployment----------
+
+// ----------------------------deployment----------------------
 
 app.use(notFound);
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
-const server = app.listen(
-  PORT,
-  console.log(`Server starts at port ${PORT}`.yellow.bold)
-);
+const server = app.listen(PORT, console.log(`Server starts at port ${PORT}`));
 
 const io = require("socket.io")(server, {
   pingTimeout: 60000,
